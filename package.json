@@ -1,0 +1,41 @@
+{
+  "name": "rides.cash",
+  "version": "0.0.0",
+  "description": "BCH Riders (Team)",
+  "main": "./src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@forevolve/bootstrap-dark": "^1.0.0-alpha.1091",
+    "@fortawesome/fontawesome-svg-core": "^1.2.30",
+    "@fortawesome/free-brands-svg-icons": "^5.14.0",
+    "@fortawesome/free-solid-svg-icons": "^5.14.0",
+    "@fortawesome/vue-fontawesome": "^2.0.0",
+    "bootstrap": "^4.5.2",
+    "bootstrap-vue": "^2.16.0",
+    "file-loader": "^6.1.0",
+    "leaflet": "^1.7.1",
+    "vue": "^2.6.12",
+    "vue-router": "^3.4.3",
+    "vue2-leaflet": "^2.5.2",
+    "vuex": "^3.5.1"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^6.1.0",
+    "css-loader": "^4.2.2",
+    "style-loader": "^1.2.1",
+    "vue-loader": "^15.9.3",
+    "vue-template-compiler": "^2.6.12",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
