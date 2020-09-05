@@ -49,8 +49,14 @@ timestamp``)**
 destination[xcoordinate,ycoordinate]``)**
 >Returns drivingDistance in miles
 
-**calculateRiderFare(``rideid``, currency)**
+**calculateRiderFare(``rideid, currency``)**
 >Calculates fare based on drivingDistance + minimum charge.
 
 **createPaymentInvoice(``rideid``)**
 >checks for and creates a BCH address in local storage.  Calls calculateRiderFare() and returns BCH amount + address (saved in local storage)
+
+**listenForPayment(``localStorageAddress, bchAmount``)**
+>waits for user to open their wallet, send funds, and callsback createAndPayContract() upon recieveing funds.
+
+**createAndPayContract(``rideid, bchAmount``)**
+>constructs contract transaction, and pays using address in local storage
