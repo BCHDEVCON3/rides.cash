@@ -31,7 +31,7 @@
 
 ## Methods:
 
-**Search(`location[xcoordinate,ycoordinate], range[number_of_miles]`)**
+**searchRides(`location[xcoordinate,ycoordinate], range[number_of_miles]`)**
 >Returns:
 	rides[]{}
 
@@ -39,8 +39,18 @@
 >Returns:
 	return paymentInvoices[] item to the riderid
 
-**RequestRide(``origin[xcoordinate,ycoordinate],
+**requestRide(``origin[xcoordinate,ycoordinate],
 destination[xcoordinate,ycoordinate],
 timestamp``)**
 >Returns:
 	adds an item to the ride[] list
+
+**getDrivingDistance(``origin[xcoordinate,ycoordinate],
+destination[xcoordinate,ycoordinate]``)**
+>Returns drivingDistance in miles
+
+**calculateRiderFare(``rideid``, currency)**
+>Calculates fare based on drivingDistance + minimum charge.
+
+**createPaymentInvoice(``rideid``)**
+>checks for and creates a BCH address in local storage.  Calls calculateRiderFare() and returns BCH amount + address (saved in local storage)
