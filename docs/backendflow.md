@@ -1,6 +1,6 @@
 # Backend Workflow
 
-## Objects:
+## Database Objects:
 **ride[]**
 ```
 {
@@ -10,7 +10,8 @@
 		pickuplocation[xcoordinate,ycoordinate],  
 		dropofflocation[xcoordinate,ycoordinate],
 		timestamp[timestamp of desired time],
-		isAvalible[boolean]
+		isClaimed[boolean]
+		isPaid
 }
 ```
 
@@ -21,10 +22,6 @@
 	email,
 	password,
 	bchaddr,
-	paymentInvoices{
-		rideid,
-		txdata=""
-	}
 }
 ```
 
@@ -55,8 +52,8 @@ destination[xcoordinate,ycoordinate]``)**
 **createPaymentInvoice(``rideid``)**
 >checks for and creates a BCH address in local storage.  Calls calculateRiderFare() and returns BCH amount + address (saved in local storage)
 
-**listenForPayment(``localStorageAddress, bchAmount``)**
->waits for user to open their wallet, send funds, and callsback createAndPayContract() upon recieveing funds.
+**createPayment(``bchAmount, bchAddress``)**
+>creates a bip70 invoice using bitcoin.com's payment api, and reurns the payment link
 
-**createAndPayContract(``rideid, bchAmount``)**
->constructs contract transaction, and pays using address in local storage
+**listenForPayment(``paymentUrl``)**
+>waits for user to open their wallet, send funds, and callsback createAndPayContract() upon recieveing funds.
