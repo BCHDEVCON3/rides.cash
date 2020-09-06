@@ -5,7 +5,7 @@
             <!-- Content -->
             <b-col class="h-100">
                 <Bar></Bar>
-                <router-view></router-view>
+                <router-view style="padding-top: 50px;"></router-view>
             </b-col>
         </b-row>
 

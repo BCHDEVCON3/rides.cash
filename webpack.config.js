@@ -1,9 +1,10 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const { argv } = require('process');
 
-module.exports = {
-    mode: 'development',
+module.exports = (env, argv) => ({
+    mode: argv.mode || 'development',
     entry: './src/app.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -33,8 +34,11 @@ module.exports = {
                 loader: 'svg-inline-loader'
             },
             {
-                test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
-                loader: 'file-loader'
+                test: /\.(png)$/i,
+                loader: 'url-loader',
+                options: {
+                    esModule: false
+                }
             }
         ]
     },
@@ -46,4 +50,4 @@ module.exports = {
             ],
         }),
     ]
-}
+});

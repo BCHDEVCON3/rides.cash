@@ -5,6 +5,6 @@
     </font-awesome-layers>-->
     <b-button variant="transparent" to="/">
         <font-awesome-icon icon="male" size="2x"></font-awesome-icon>
-        <font-awesome-icon icon="car-alt" transform="right-1" size="2x"></font-awesome-icon>
+        <font-awesome-icon class="text-success" icon="car-alt" transform="right-1" size="2x"></font-awesome-icon>
     </b-button>
 </template>

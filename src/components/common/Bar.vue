@@ -1,9 +1,12 @@
 <template>
     <div class="bar">
-        <Logo class="ml-2"></Logo>
 
-        <b-button class="float-right" variant="transparent" v-b-toggle.sidebar>
+        <b-button variant="transparent" v-b-toggle.sidebar>
             <font-awesome-icon icon="bars" size="2x" />
+        </b-button>
+
+        <b-button variant="transparent" to="/" class="d-inline ml-1 align-middle" style="font-size: 2rem; line-height: 46px;">
+            <span>rides</span><span class="text-success">.cash</span>
         </b-button>
     </div>
 </template>
@@ -18,11 +21,9 @@
 </style>
 
 <script>
-import Logo from './Logo.vue';
 
 export default {
     components: {
-        Logo
     }
 }
 </script>
