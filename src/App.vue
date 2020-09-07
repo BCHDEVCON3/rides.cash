@@ -21,6 +21,17 @@ import Bar from './components/common/Bar.vue';
 import Menu from './components/common/Menu.vue';
 
 export default {
+    methods: {
+        updateBCHPrice: async function() {
+            let resp = await fetch('https://api.coingecko.com/api/v3/coins/bitcoin-cash?tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false');
+            let data = await resp.json();
+
+            this.store_temp.bch_usd_price = data.market_data.current_price.usd;
+        }
+    },
+    mounted() {
+        this.updateBCHPrice();
+    },
     components: {
         Bar,
         Menu

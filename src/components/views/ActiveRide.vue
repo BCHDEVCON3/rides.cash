@@ -1,17 +1,15 @@
 <template>
-    <b-row class="h-100 align-items-center">
-        <b-col class="text-center">
-            <font-awesome-layers style="font-size: 120px;">
-                <font-awesome-icon icon="spinner" pulse></font-awesome-icon>
-                <font-awesome-icon :icon="context === 'rider' ? 'car' : 'male'" transform="shrink-9" />
-            </font-awesome-layers>
-            <h4 class="mt-3">{{ message }}</h4>
-            {{ $route.params.id }}
-        </b-col>
-    </b-row>
+    <div>
+        {{ status }}
+        <WaitingSplash v-if="rideData === null || status === 'pending'" :context="context"></WaitingSplash>
+        <Details v-else :ride="rideData" :context="context"></Details>
+    </div>
 </template>
 
 <script>
+import WaitingSplash from '../ActiveRide/WaitingSplash.vue';
+import Details from '../ActiveRide/Details.vue';
+
 export default {
     props: {
         context2: {
@@ -22,12 +20,52 @@ export default {
     data() {
         return {
             context: 'driver', // rider or driver
+            status: 'pending',
+            rideData: null
         }
     },
-    computed: {
-        message: function() {
-            return this.context === 'rider' ? 'Finding Driver' : 'Confirming Ride';
+    watch: {
+        "ws.isConnected": function() {
+            if(this.ws.isConnected) {
+                // subscribe to updates
+                this.ws.send('pub_subscribe', {
+                    id: this.$route.params.id
+                });
+                console.log('sent subscribe request', this.$route.params.id);
+            }
         }
+    },
+    methods: {
+        onClaim: function(data) {
+            this.status = "claimed";
+            console.log(data);
+            this.updateRideData();
+        },
+        updateRideData: async function() {
+            let resp = await fetch(`${this.store_temp.api_url}/v1/rides/${this.$route.params.id}`);
+            let data = await resp.json()
+
+            console.log(data)
+
+            if(data.success) {
+                this.rideData = data.data;
+                this.status = data.data.status;
+            }
+        }
+    },
+    mounted() {
+        this.ws.on('claimed', function() {
+            console.log('ActiveRide.vue', 'claimed');
+            this.status = "claimed";
+            }.bind(this));//this.onClaim.bind(this));
+
+        this.context = this.store_temp.context;
+
+        this.updateRideData();
+    },
+    components: {
+        WaitingSplash,
+        Details
     }
 }
 </script>

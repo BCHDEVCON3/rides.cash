@@ -26,7 +26,7 @@
 
         <!-- List -->
         <b-list-group v-show="view === 'list'" class="mt-3">
-            <b-list-group-item v-for="ride in rides" :key="ride.id">
+            <b-list-group-item v-for="(ride, i) in rides" :key="ride.id">
                 <b-row>
                     <b-col>
                         <font-awesome-icon icon="map-marker-alt" class=""></font-awesome-icon>
@@ -36,18 +36,19 @@
                     </b-col>
 
                     <b-col class="text-left">
-                        <span class="fixed-width-label">Price:</span> ${{ ride.bounty.toFixed(2) }}<br />
-                        <span class="fixed-width-label">Rating:</span> 4.8/5
+                        <span class="fixed-width-label">Price:</span> {{ ride.bounty.toFixed(6) }} BCH (${{ ride.bounty * store_temp.bch_usd_price }})<br />
                     </b-col>
 
                     <b-col class="text-right">
-                        <b-button variant="success" size="lg" block>
+                        <b-button @click="claim(i)" variant="success" size="lg" block>
                             Claim Ride
                         </b-button>
                     </b-col>
                 </b-row>
             </b-list-group-item>
         </b-list-group>
+
+        <h4 v-if="rides.length === 0">No Rides to Claim</h4>
 
         <!-- Map -->
         <PickupMap v-if="view === 'map'" :rides="rides" @rideSelected="showRide($event)" class="mt-3" style="height: 65vh;"></PickupMap>
@@ -108,7 +109,7 @@ export default {
     },
     methods: {
         getRides: async function() {
-            let resp = await fetch(`http://localhost:8080/v1/rides`);
+            let resp = await fetch(`${this.store_temp.api_url}/v1/rides`);
             let data = await resp.json();
 
             this.rides = data;
@@ -116,10 +117,26 @@ export default {
         showRide: function(index) {
             this.selectedRide = this.rides[index];
             this.$bvModal.show('modal-ride-details'); // show modal
+        },
+        claim: function(index) {
+            this.ws.send('pub_claim_ride', {
+                id: this.rides[index].id,
+                bch_address: 'bitcoincash:qqxgjv4erfayzegy3h9p7dv4jja3jf6cs5ygtgk7tr'
+            });
+        },
+        onRedirect: function(data) {
+            this.$router.push({ path: `/ride/${data.id}` })
         }
     },
     mounted() {
         this.getRides();
+
+        this.ws.on('redirect', this.onRedirect.bind(this));
+
+
+        // user contexy
+        this.store_temp.context = 'driver';
+
     },
     components: {
         PickupMap,

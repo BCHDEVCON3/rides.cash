@@ -23,8 +23,8 @@ Vue.use(ModalPlugin);
 
 // font-awesome 
 import { faBitcoin } from '@fortawesome/free-brands-svg-icons';
-import { faBars, faCar, faStreetView, faMale, faCrosshairs, faMapMarkedAlt, faList, faMapMarkerAlt, faMapMarker, faSpinner } from '@fortawesome/free-solid-svg-icons'
-library.add(faBitcoin, faBars, faCar, faStreetView, faMale, faCrosshairs, faMapMarkedAlt, faList, faMapMarkerAlt, faMapMarker, faSpinner)
+import { faBars, faCar, faCarAlt, faStreetView, faMale, faCrosshairs, faMapMarkedAlt, faList, faMapMarkerAlt, faMapMarker, faSpinner } from '@fortawesome/free-solid-svg-icons'
+library.add(faBitcoin, faBars, faCar, faCarAlt, faStreetView, faMale, faCrosshairs, faMapMarkedAlt, faList, faMapMarkerAlt, faMapMarker, faSpinner)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.component('font-awesome-layers', FontAwesomeLayers)
 
@@ -75,6 +75,27 @@ const routes = [
 const router = new VueRouter({
     routes
 });
+
+let store_temp = {
+    'context': 'rider',
+    'websocket_url': MODE == 'production' ? 'ws://api.rides.cash/ws' : 'ws://localhost:8080/ws',
+    'api_url': MODE == 'production' ? 'http://api.rides.cash' : 'http://localhost:8080',
+    'bch_usd_price': 0
+}
+
+// mixin 
+import WSConnection from './js/WSConnection.js';
+const ws = new WSConnection();
+ws.connect(store_temp.websocket_url);
+
+Vue.mixin({
+    data() {
+        return {
+            ws,
+            store_temp,
+        }
+    }
+})
 
 // Vue Instance
 new Vue({

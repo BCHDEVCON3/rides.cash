@@ -87,6 +87,10 @@ export default {
         scroll: function(ref) {
             this.$refs[ref].scrollIntoView({behavior: 'smooth'});
         }
+    },
+    mounted() {
+        console.log('MODE', MODE);
+
     }
 }
 </script>

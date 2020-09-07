@@ -2,6 +2,7 @@ const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const { argv } = require('process');
+const { DefinePlugin } = require('webpack');
 
 module.exports = (env, argv) => ({
     mode: argv.mode || 'development',
@@ -49,5 +50,8 @@ module.exports = (env, argv) => ({
                 { from: './src/index.html', to: '' },
             ],
         }),
+        new DefinePlugin({
+            MODE: JSON.stringify(argv.mode || 'development')
+        })
     ]
 });

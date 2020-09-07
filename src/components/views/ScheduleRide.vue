@@ -44,7 +44,7 @@
                         <label><b>Per Mile:</b></label>
                         ${{ cost.milesCost }} <span class="text-muted">(${{ perMile }} per mi)</span><br />
                         <label><b>Total:</b></label>
-                        ${{ cost.total }}<br />
+                        {{ cost.bch_total.toFixed(6) }} BCH (${{ cost.total }})<br />
                     </div>
                 </b-card>
             </b-col>
@@ -122,7 +122,8 @@ export default {
                 base: this.baseRate.toFixed(2),
                 miles: miles.toFixed(2),
                 milesCost: milesCost.toFixed(2),
-                total: (this.baseRate + milesCost).toFixed(2)
+                total: (this.baseRate + milesCost).toFixed(2),
+                bch_total: ((this.baseRate + milesCost) / this.store_temp.bch_usd_price)
             }
         }
     },
@@ -151,7 +152,7 @@ export default {
             return Utils.metersToMiles(this.jDetails.distance);
         },
         postRide: async function() {
-            let resp = await fetch(`http://localhost:8080/v1/rides`, {
+            let resp = await fetch(`${this.store_temp.api_url}/v1/rides`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
@@ -160,7 +161,7 @@ export default {
                 body: JSON.stringify({
                     pickup: this.journey[0],
                     dropoff: this.journey[1],
-                    bounty: this.cost.total
+                    bounty: this.cost.bch_total
                 })
             });
             let data = await resp.json();
@@ -172,6 +173,9 @@ export default {
 
             console.log(data);
         }
+    },
+    mounted() {
+        this.store_temp.context = 'rider';
     },
     components: {
         GeoLocOptions
