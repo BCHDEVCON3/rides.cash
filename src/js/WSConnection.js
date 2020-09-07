@@ -37,7 +37,7 @@ export default class WSConnection {
         let callbacks = this.onEvents[data.event] || [];
         callbacks.forEach((c) => {
             console.log('calling back');
-            c(data.data);
+            c(data);
         })
     }
 

@@ -1,6 +1,5 @@
 <template>
     <div>
-        {{ status }}
         <WaitingSplash v-if="rideData === null || status === 'pending'" :context="context"></WaitingSplash>
         <Details v-else :ride="rideData" :context="context"></Details>
     </div>
@@ -27,16 +26,13 @@ export default {
     watch: {
         "ws.isConnected": function() {
             if(this.ws.isConnected) {
-                // subscribe to updates
-                this.ws.send('pub_subscribe', {
-                    id: this.$route.params.id
-                });
-                console.log('sent subscribe request', this.$route.params.id);
+                this.subscribeToUpdates();
             }
         }
     },
     methods: {
         onClaim: function(data) {
+            console.log('ActiveRide.vue', 'claimed');
             this.status = "claimed";
             console.log(data);
             this.updateRideData();
@@ -51,17 +47,25 @@ export default {
                 this.rideData = data.data;
                 this.status = data.data.status;
             }
+        },
+        subscribeToUpdates: function() {
+            // subscribe to updates
+            this.ws.send('pub_subscribe', {
+                id: this.$route.params.id
+            });
+            console.log('sent subscribe request', this.$route.params.id);
         }
     },
     mounted() {
-        this.ws.on('claimed', function() {
-            console.log('ActiveRide.vue', 'claimed');
-            this.status = "claimed";
-            }.bind(this));//this.onClaim.bind(this));
+        this.ws.on('claimed', this.onClaim.bind(this));
 
         this.context = this.store_temp.context;
 
         this.updateRideData();
+
+        if(this.ws.isConnected) {
+            this.subscribeToUpdates();
+        }
     },
     components: {
         WaitingSplash,
