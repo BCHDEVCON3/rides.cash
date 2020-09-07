@@ -7,5 +7,8 @@
 2. ```source ./venv/bin/activate``` ( optional )
 3. ```pip install -r requirements.txt```
 
-## Run
-1. ```uvicorn server:app --port 80``` (development?: ```--reload --port 8080```)
+## Run - Development
+1. ```uvicorn server:app --reload --port 8080```)
+
+## Run - Production
+1. ```uvicorn server:app --host 0.0.0.0 --port 443 --ssl-keyfile=[YOUR-SSL-KEY] --ssl-certfile=[YOUR-CERT]```

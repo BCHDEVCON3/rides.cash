@@ -78,8 +78,8 @@ const router = new VueRouter({
 
 let store_temp = {
     'context': 'rider',
-    'websocket_url': MODE == 'production' ? 'ws://api.rides.cash/ws' : 'ws://localhost:8080/ws',
-    'api_url': MODE == 'production' ? 'http://api.rides.cash' : 'http://localhost:8080',
+    'websocket_url': MODE == 'production' ? 'wss://api.rides.cash/ws' : 'ws://localhost:8080/ws',
+    'api_url': MODE == 'production' ? 'https://api.rides.cash' : 'http://localhost:8080',
     'bch_usd_price': 0
 }
 
