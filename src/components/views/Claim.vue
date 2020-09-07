@@ -2,13 +2,16 @@
     <div>
         <div class="text-center mb-2" style="font-size: 2.4rem;">Claim Ride</div>
 
+        <!-- Driver Address (Replace default) -->
+        <b-form-input v-model.trim="driverBCHAddress" class="mb-3" type="text" placeholder="Payment BCH Address"></b-form-input>
+
         <!-- Geo locate options -->
         <GeoLocOptions class="d-inline" @coords="driverPos = $event" :placeholder="'Current Address'" ></GeoLocOptions>
 
         <b-row class="mt-3">
             <!-- Radius -->
             <b-col>
-                <b-form-select v-model="radius" :options="radiusOptions"class="d-inline-block" style="width: 120px"></b-form-select>
+                <b-form-select v-model="radius" :options="radiusOptions" class="d-inline-block" style="width: 120px"></b-form-select>
             </b-col>
 
             <!-- view buttons -->
@@ -40,7 +43,7 @@
                     </b-col>
 
                     <b-col class="text-right">
-                        <b-button @click="claim(i)" variant="success" size="lg" block>
+                        <b-button @click="claim(i)" :disabled="driverBCHAddress === null || driverBCHAddress.length < 25" variant="success" size="lg" block>
                             Claim Ride
                         </b-button>
                     </b-col>
@@ -77,6 +80,7 @@ export default {
             view: 'list', // list or map
             rides: [],
             driverPos: null,
+            driverBCHAddress: null,
             selectedRide: null, // selected from map
             radius: 5,
             radiusOptions: [
@@ -121,7 +125,7 @@ export default {
         claim: function(index) {
             this.ws.send('pub_claim_ride', {
                 id: this.rides[index].id,
-                bch_address: 'bitcoincash:qqxgjv4erfayzegy3h9p7dv4jja3jf6cs5ygtgk7tr'
+                bch_address: this.driverBCHAddress
             });
         },
         onRedirect: function(data) {

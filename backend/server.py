@@ -44,7 +44,9 @@ def read_root():
 # GET ride
 @app.get("/v1/rides")
 def get_rides(coords: Optional[str] = None, radius: Optional[float] = None):
-    result = rides.all()
+    #result = rides.all()
+    Ride = Query()
+    result = rides.search(Ride.status == 'pending')
     print(type(coords))
     print(coords)
 

@@ -48,6 +48,7 @@ module.exports = (env, argv) => ({
         new CopyPlugin({
             patterns: [
                 { from: './src/index.html', to: '' },
+                { from: './src/favicon.png', to: '' },
             ],
         }),
         new DefinePlugin({
