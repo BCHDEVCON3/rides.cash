@@ -35,7 +35,7 @@
                         <font-awesome-icon icon="map-marker-alt" class=""></font-awesome-icon>
                         <span class="fixed-width-label">Pickup:</span> {{ ride.pickup.join(', ') }}<br />
                         <font-awesome-icon icon="map-marker" class=""></font-awesome-icon>
-                        <span class="fixed-width-label">Dropoff:</span> {{ ride.pickup.join(', ') }}
+                        <span class="fixed-width-label">Dropoff:</span> {{ ride.dropoff.join(', ') }}
                     </b-col>
 
                     <b-col class="text-left">
