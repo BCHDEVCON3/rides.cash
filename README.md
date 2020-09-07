@@ -18,3 +18,16 @@ Features include:
 * Ride Cancellation
 * Encrypted messaging integration
 * Driver tracking
+
+## Install
+```npm install```
+
+## Development Server
+```npm run start:dev```
+
+**Important:** Backend required. Navigate to **./backend/README.md**
+
+## Build
+```npm run build```
+
+Output files in **./dist**
