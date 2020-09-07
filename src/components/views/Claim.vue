@@ -39,7 +39,7 @@
                     </b-col>
 
                     <b-col class="text-left">
-                        <span class="fixed-width-label">Price:</span> {{ ride.bounty.toFixed(6) }} BCH (${{ ride.bounty * store_temp.bch_usd_price }})<br />
+                        <span class="fixed-width-label">Price:</span> {{ ride.bounty.toFixed(6) }} BCH (${{ (ride.bounty * store_temp.bch_usd_price).toFixed(2) }})<br />
                     </b-col>
 
                     <b-col class="text-right">
